@@ -4,6 +4,8 @@ using UnityEngine;
 
 
 public class Projectile : MonoBehaviour
+
+
 {
     // Start is called before the first frame update
     //public variable ThrowSpeed
@@ -11,9 +13,11 @@ public class Projectile : MonoBehaviour
     //public variable ThrowForce
     public float ThrowForce;
     public GameObject ProjectilePrefab;
+
+    public AudioSource bounce;
     void Start()
     {
-        
+        bounce = GetComponent<AudioSource>();
     }
     public void ThrowObject(GameObject obj)
     {
@@ -24,6 +28,14 @@ public class Projectile : MonoBehaviour
         obj.GetComponent<Rigidbody>().AddTorque(new Vector3(0, Random.Range(-1f, 1f), 0), ForceMode.Impulse);
     }
 
+    // The ball is going to make a sound when it hits the floor
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Floor")
+        {
+            bounce.Play();
+        }
+    }
 
     // Update is called once per frame
     void Update()
